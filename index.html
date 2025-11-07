@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Royal Court Event Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        nav {
+            background: #2d3748;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #a78bfa;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(45, 55, 72, 0.85), rgba(45, 55, 72, 0.85)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 500;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        section:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .story-content {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .owner-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: start;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .owner-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .owner-content h3 {
+            font-size: 2rem;
+            color: #764ba2;
+            margin-bottom: 1rem;
+        }
+
+        .owner-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 2rem auto 0;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-grid,
+        .drapery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            aspect-ratio: 1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 50px;
+            color: white;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            user-select: none;
+        }
+
+        .modal-nav:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        .modal-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        .highlight h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #2d3748;
+                flex-direction: column;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-menu.active {
+                max-height: 300px;
+            }
+
+            .nav-menu li {
+                width: 100%;
+                text-align: center;
+                border-top: 1px solid #4a5568;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .owner-section {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .modal-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 40px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
+            }
+
+            .gallery-grid,
+            .drapery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <h1>👑 The Royal Court Event Center</h1>
+        <p>Creating Memorable Experiences Fit for Royalty</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" data-page="home" class="nav-link active">Home</a></li>
+                <li><a href="#" data-page="drapery" class="nav-link">Drapery</a></li>
+                <li><a href="#" data-page="gallery" class="nav-link">Gallery</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page active" id="home">
+        <div class="hero">
+            <h2>Event Planning Excellence Since 2018</h2>
+            <p>Transforming your special moments into extraordinary celebrations with over 30 years of experience</p>
+        </div>
+        <section>
+            <div class="container">
+                <h2>Our Story</h2>
+                <div class="story-content">
+                    <p>"The Royal Court" began as a fun idea to create a name for my crew of divas who were given the task of planning my aunt's retirement/birthday party. The only theme that made sense for such a phenomenal woman & her major milestones was none other than..... The Queen of the Night! Some of our props for the party included: a crown, a queen's robe, a scepter... You get the drift. We even created her entrance into the party which was only fit for a QUEEN! It was PERFECTION.</p>
+
+                    <p>Having planned several events prior to the retirement/birthday party (i.e. weddings, birthday parties, memorials, etc.), it was time to finally create a name for what I have always been passionate about. The inspiration from planning the Queen of the Night, having full creative control of the events we have planned, and consistently being accompanied by my crew of divas who share my vision has allowed The Royal Court to be born.</p>
+
+                    <p>The joy I feel when creating such meaningful, memorable & extravagant experiences for our close friends and family has encouraged me to take my dream one step further. I could not be prouder, I could not feel more blessed, I could not be more grateful for the opportunity to finally introduce... The Royal Court Event Center!</p>
+
+                    <p>The Royal Court Event Center, LLC. - an event planning company - has been assisting with fun times for over 30yrs, but OFFICIALLY began in 2018. We provide an ultimate customer experience by offering excellent customer service, assistance with choosing venues, event planning, event furniture rental and event decorating. Vanessa and her daughters dubbed themselves "The Royal Court" as a fun idea when they were asked to plan an over the top retirement extravaganza fit for a Queen! The theme was "The Queen of the Night"! The joy they've felt over the years while creating such meaningful and memorable experiences has evolved into an entire business!</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="highlight">
+            <h3>✨ Excellence in Every Detail ✨</h3>
+            <p>From intimate gatherings to grand celebrations, we bring your vision to life with passion, creativity, and meticulous attention to detail</p>
+        </div>
+
+        <section>
+            <div class="container">
+                <h2>About the Owner</h2>
+                <div class="owner-section">
+                    <div>
+                        <img src="images/vanessa-greene.jpg" alt="Vanessa Greene" class="owner-image">
+                    </div>
+                    <div class="owner-content">
+                        <h3>Vanessa Greene</h3>
+                        <p>Vanessa Greene is an enthusiastically spirited entrepreneur who thrives on customer service and attention to detail in everything she does. A devoted wife, she is also the mother of 3 children and 4 bonus children, and the grandmother of 10. In her spare time, Vanessa enjoys organizing, reading, walking and binge watching the TV show Married at First Sight.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Products and Services</h2>
+                <p style="text-align: center; font-size: 1.1rem; max-width: 800px; margin: 0 auto 3rem;">We provide complete but affordable and FINER event planning design and services to consumers looking to hold small (60-100) events and meetings. We also assist local community agencies and nonprofit groups with holding drives and fundraisers.</p>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🎉</div>
+                        <h3>Event Planning</h3>
+                        <p>Complete event coordination from concept to execution, ensuring every detail is perfect.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🏛️</div>
+                        <h3>Venue Selection</h3>
+                        <p>Expert assistance in choosing the perfect venue that matches your vision and budget.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🪑</div>
+                        <h3>Furniture Rental</h3>
+                        <p>Quality event furniture rentals to create the perfect atmosphere for your celebration.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🎨</div>
+                        <h3>Event Decorating</h3>
+                        <p>Creative decorating services that transform spaces into unforgettable experiences.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">💼</div>
+                        <h3>Small Events</h3>
+                        <p>Specialized in intimate gatherings and meetings for 60-100 guests.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🤝</div>
+                        <h3>Community Support</h3>
+                        <p>Assistance for local agencies and nonprofits with drives and fundraisers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Drapery Page -->
+    <div class="page" id="drapery">
+        <section>
+            <div class="container">
+                <h2>Drapery</h2>
+                <p style="text-align: center; font-size: 1.1rem; max-width: 800px; margin: 0 auto 3rem;">The Royal Court offers drapery to create a beautiful setting for your special event. Please call <a href="tel:+13142264111">314.226.4111</a> or email <a href="mailto:royalcourteventcenter@gmail.com">royalcourteventcenter@gmail.com</a> to determine your drapery needs and a price quote.</p>
+
+                <div class="drapery-grid" id="draperyGrid"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Gallery Page -->
+    <div class="page" id="gallery">
+        <section>
+            <div class="container">
+                <h2>Event Gallery</h2>
+                <p style="text-align: center; font-size: 1.1rem; max-width: 800px; margin: 0 auto 3rem;">Browse through our collection of memorable events we've had the honor to plan and decorate.</p>
+
+                <div class="gallery-grid" id="galleryGrid"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-close" id="modalClose">&times;</div>
+        <div class="modal-nav modal-prev" id="modalPrev">&#8249;</div>
+        <div class="modal-content">
+            <img src="" alt="Gallery Image" class="modal-image" id="modalImage">
+        </div>
+        <div class="modal-nav modal-next" id="modalNext">&#8250;</div>
+        <div class="modal-counter" id="modalCounter"></div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> The Royal Court Event Center, LLC. All rights reserved.</p>
+        <p>Creating memorable experiences for over 30 years</p>
+    </footer>
+
+    <script>
+        // Sample gallery images (replace with actual images)
+        const draperyImages = [
+            { src: 'images/drapery/img0001.jpg', alt: 'Drapery 1' },
+            { src: 'images/drapery/img0002.jpg', alt: 'Drapery 2' },
+            { src: 'images/drapery/img0003.jpg', alt: 'Drapery 3' },
+            { src: 'images/drapery/img0004.jpg', alt: 'Drapery 4' },
+            { src: 'images/drapery/img0005.jpg', alt: 'Drapery 5' },
+            { src: 'images/drapery/img0006.jpg', alt: 'Drapery 6' },
+            { src: 'images/drapery/img0007.jpg', alt: 'Drapery 7' },
+            { src: 'images/drapery/img0008.jpg', alt: 'Drapery 8' },
+            { src: 'images/drapery/img0009.jpg', alt: 'Drapery 9' },
+            { src: 'images/drapery/img0010.jpg', alt: 'Drapery 10' },
+            { src: 'images/drapery/img0011.jpg', alt: 'Drapery 11' },
+            { src: 'images/drapery/img0012.jpg', alt: 'Drapery 12' },
+            { src: 'images/drapery/img0013.jpg', alt: 'Drapery 13' },
+            { src: 'images/drapery/img0014.jpg', alt: 'Drapery 14' },
+            { src: 'images/drapery/img0015.jpg', alt: 'Drapery 15' },
+            { src: 'images/drapery/img0016.jpg', alt: 'Drapery 16' }
+        ];
+        const galleryImages = [
+            { src: 'images/gallery/img0001.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0002.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0003.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0004.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0005.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0006.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0007.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0008.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0009.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0010.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0011.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0012.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0013.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0014.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0015.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0016.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0017.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0018.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0019.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0020.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0021.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0022.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0023.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0024.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0025.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0026.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0027.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0028.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0029.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0030.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0031.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0032.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0033.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0034.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0035.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0036.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0037.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0038.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0039.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0040.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0041.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0042.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0043.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0044.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0045.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0046.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0047.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0048.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0049.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0050.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0051.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0052.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0053.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0054.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0055.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0056.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0057.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0058.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0059.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0060.jpg', alt: 'Gallery Image' },
+            { src: 'images/gallery/img0061.jpg', alt: 'Gallery Image' }
+        ];
+
+        let currentImageIndex = 0;
+        let currentGalleryType = 'gallery'; // Track which gallery is being viewed
+
+        // Populate drapery gallery
+        const draperyGrid = document.getElementById('draperyGrid');
+        draperyImages.forEach((img, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+            item.addEventListener('click', () => openModal(index, 'drapery'));
+            draperyGrid.appendChild(item);
+        });
+
+        // Populate event gallery
+        const galleryGrid = document.getElementById('galleryGrid');
+        galleryImages.forEach((img, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+            item.addEventListener('click', () => openModal(index, 'gallery'));
+            galleryGrid.appendChild(item);
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        const modalCounter = document.getElementById('modalCounter');
+
+        function openModal(index, galleryType) {
+            currentImageIndex = index;
+            currentGalleryType = galleryType;
+            updateModalImage();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateModalImage() {
+            const images = currentGalleryType === 'drapery' ? draperyImages : galleryImages;
+            modalImage.src = images[currentImageIndex].src;
+            modalImage.alt = images[currentImageIndex].alt;
+            modalCounter.textContent = `${currentImageIndex + 1} / ${images.length}`;
+        }
+
+        function showPrevImage() {
+            const images = currentGalleryType === 'drapery' ? draperyImages : galleryImages;
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateModalImage();
+        }
+
+        function showNextImage() {
+            const images = currentGalleryType === 'drapery' ? draperyImages : galleryImages;
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateModalImage();
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalPrev.addEventListener('click', showPrevImage);
+        modalNext.addEventListener('click', showNextImage);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') showPrevImage();
+            if (e.key === 'ArrowRight') showNextImage();
+        });
+
+        // Navigation functionality
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+
+                // Update active link
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Show target page
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(targetPage).classList.add('active');
+
+                // Close mobile menu
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+
+                // Scroll to top
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Set current year in footer
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
